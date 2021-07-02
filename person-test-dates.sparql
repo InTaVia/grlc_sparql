@@ -15,13 +15,8 @@ WHERE {
     ?person rdfs:label ?personLabel .
     ?birth crm:P98_brought_into_life ?person .
     ?birth  crm:P4_has_time-span ?date .
-    ?date crm:P82a_begin_of_the_begin ?_birthdate^^xsd:date .
-      #FILTER (?begin_of_birth > ?__birth_not_before_xsd_date)
-      #FILTER (?begin_of_birth > "1800-01-01"^^xsd:date)
-      # ^^ works with hard-coded date but not parsing date ??
-    
-
- 
+    ?date crm:P82a_begin_of_the_begin ?__birthdatexsd_date .
+      
 	SERVICE <http://www.bigdata.com/rdf/search#search> { 
         ?personLabel bds:search ?_name_de
     }
