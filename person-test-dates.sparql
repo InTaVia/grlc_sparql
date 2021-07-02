@@ -6,6 +6,7 @@
 
 PREFIX  bds:  <http://www.bigdata.com/rdf/search#>
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 SELECT ?person ?personLabel ?birthNotBefore
 WHERE {
