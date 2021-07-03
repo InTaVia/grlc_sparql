@@ -11,12 +11,13 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?person ?personLabel
 WHERE {
+    OPTIONAL {?s ?p ?_birthdate_xsd_date} .
     ?person a crm:E21_Person .
     ?person rdfs:label ?personLabel .
     ?birth crm:P98_brought_into_life ?person .
     ?birth  crm:P4_has_time-span ?date .
     ?date crm:P82a_begin_of_the_begin ?begin_of_birth .
-    ?_birthdate_xsd_date a rdfs:Literal .
+    
     FILTER (?begin_of_birth > ?_birthdate_xsd_date)
 }
 
