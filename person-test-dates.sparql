@@ -15,8 +15,8 @@ WHERE {
     ?person rdfs:label ?personLabel .
     ?birth crm:P98_brought_into_life ?person .
     ?birth  crm:P4_has_time-span ?date .
-    ?date crm:P82a_begin_of_the_begin ?__birthdate_xsd_date .
-      
+    ?date crm:P82a_begin_of_the_begin ?begin_of_birth .
+    FILTER (?begin_of_birth > ?_birthdate_xsd_date)
 	SERVICE <http://www.bigdata.com/rdf/search#search> { 
         ?personLabel bds:search ?_name_de
     }
