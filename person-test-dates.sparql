@@ -16,7 +16,7 @@ WHERE {
     ?birth crm:P98_brought_into_life ?person .
     ?birth  crm:P4_has_time-span ?date .
     ?date crm:P82a_begin_of_the_begin ?begin_of_birth .
-    ?_birthdate_xsd_date a xsd:date .
+    ?_birthdate_xsd_date a rdfs:Literal .
     FILTER (?begin_of_birth > ?_birthdate_xsd_date)
 }
 
