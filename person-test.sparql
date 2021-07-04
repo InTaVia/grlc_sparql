@@ -1,7 +1,9 @@
 #+ endpoint_in_url: False
+#+ pagination: 50
 #+ transform: {
 #+     "label": "?personLabel",
-#+     "uri": "?person"
+#+     "uri": "?person",
+#+     "$anchor": "uri"
 #+   }
 
 PREFIX  bds:  <http://www.bigdata.com/rdf/search#>
@@ -15,3 +17,4 @@ WHERE {
         ?personLabel bds:search ?_name_de
     }
 }
+ORDER BY DESC(?person)
