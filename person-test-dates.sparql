@@ -9,7 +9,7 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?person ?personLabel
+SELECT ?person ?personLabel, ?relevance
 WHERE {
     OPTIONAL {?s ?p ?_birthdateAfter_xsd_date} .
     ?person a crm:E21_Person .
@@ -20,10 +20,11 @@ WHERE {
     
     FILTER (?begin_of_birth > ?_birthdateAfter_xsd_date)
     SERVICE <http://www.bigdata.com/rdf/search#search> { 
-        ?personLabel bds:search ?_name_de
+        ?personLabel bds:search ?_name_de .
+        ?personLabel bds:relevance ?relevance .
     }
 }
-
+ORDER BY DESC(?relevance)
 
 
 
