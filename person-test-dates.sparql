@@ -1,7 +1,10 @@
 #+ endpoint_in_url: False
+#+ pagination: 50
 #+ transform: {
 #+     "label": "?personLabel",
-#+     "uri": "?person"
+#+     "uri": "?person",
+#+     "date_of_birth": "?begin_of_birth",
+#+     "$anchor": "uri"
 #+   }
 
 PREFIX  bds:  <http://www.bigdata.com/rdf/search#>
@@ -9,7 +12,7 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?person ?personLabel, ?relevance
+SELECT ?person ?personLabel ?relevance ?begin_of_birth
 WHERE {
     OPTIONAL {?s ?p ?_birthdateAfter_xsd_date} .
     ?person a crm:E21_Person .
@@ -17,15 +20,9 @@ WHERE {
     ?birth crm:P98_brought_into_life ?person .
     ?birth  crm:P4_has_time-span ?date .
     ?date crm:P82a_begin_of_the_begin ?begin_of_birth .
+    ?personLabel bds:search ?_name_de .
+    ?personLabel bds:relevance ?relevance .
     
     FILTER (?begin_of_birth > ?_birthdateAfter_xsd_date)
-    SERVICE <http://www.bigdata.com/rdf/search#search> { 
-        ?personLabel bds:search ?_name_de .
-        ?personLabel bds:relevance ?relevance .
-    }
 }
-ORDER BY DESC(?relevance)
-
-
-
-
+ORDER BY DESC(?person)
