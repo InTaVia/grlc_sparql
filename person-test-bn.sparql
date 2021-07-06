@@ -12,4 +12,7 @@ PREFIX ore: <http://www.openarchives.org/ore/terms/>
 SELECT ?person ?personLabel WHERE {
 ?person bgn:personName ?pn.
 ?pn bgn:name ?personLabel
+	SERVICE <http://www.bigdata.com/rdf/search#search> { 
+        ?personLabel bds:search ?_name
+    }
 }
