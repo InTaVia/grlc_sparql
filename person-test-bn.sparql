@@ -6,7 +6,7 @@
 #+     "$anchor": "uri"
 #+   }
 
-PREFIX  bn:  <http://data.biographynet.nl/rdf/>
+PREFIX  bgn:  <http://data.biographynet.nl/rdf/>
 PREFIX ore: <http://www.openarchives.org/ore/terms/>
 
 SELECT ?person ?personLabel WHERE {
