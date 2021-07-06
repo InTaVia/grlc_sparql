@@ -6,6 +6,7 @@
 #+     "$anchor": "uri"
 #+   }
 
+PREFIX  bds:  <http://www.bigdata.com/rdf/search#>
 PREFIX  bgn:  <http://data.biographynet.nl/rdf/>
 PREFIX ore: <http://www.openarchives.org/ore/terms/>
 
