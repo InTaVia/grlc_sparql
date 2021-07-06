@@ -1,0 +1,15 @@
+#+ endpoint_in_url: False
+#+ pagination: 50
+#+ transform: {
+#+     "label": "?personLabel",
+#+     "uri": "?person",
+#+     "$anchor": "uri"
+#+   }
+
+PREFIX  bn:  <http://data.biographynet.nl/rdf/>
+PREFIX ore: <http://www.openarchives.org/ore/terms/>
+
+SELECT ?person ?personLabel WHERE {
+?person bgn:personName ?pn.
+?pn bgn:name ?personLabel
+}
