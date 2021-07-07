@@ -14,7 +14,7 @@ PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
 SELECT ?person ?personLabel ?relevance ?begin_of_birth
 WHERE {
-    OPTIONAL {?s ?p ?_birthdateAfter_xsd_date} .
+    BIND(?_birthdateAfter_xsd_date as ?birthdate_param)
     ?person a crm:E21_Person .
     ?person rdfs:label ?personLabel .
     ?birth crm:P98_brought_into_life ?person .
@@ -23,6 +23,6 @@ WHERE {
     ?personLabel bds:search ?_name_de .
     ?personLabel bds:relevance ?relevance .
     
-    FILTER (?begin_of_birth > ?_birthdateAfter_xsd_date)
+    FILTER (?begin_of_birth > ?birthdate_param)
 }
 ORDER BY DESC(?person)
