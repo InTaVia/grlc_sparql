@@ -13,8 +13,8 @@ PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 SELECT ?person ?personLabel ?begin_of_birth
 WHERE {
     ?person a crm:E21_Person .
-    ?person rdfs:label ?personLabel
-    ?date crm:P82a_begin_of_the_begin ?begin_of_birth .
+    ?person rdfs:label ?personLabel .
+    ?date crm:P82a_begin_of_the_begin ?begin_of_birth 
     SERVICE <http://www.bigdata.com/rdf/search#search> { 
         ?personLabel bds:search ?_name_de
     }
