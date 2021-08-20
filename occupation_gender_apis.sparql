@@ -15,13 +15,13 @@ SELECT ?personLabel ?occupationvalue
 WHERE {
     ?person a crm:E21_Person .
     ?person rdfs:label ?personLabel .
-    ?person crm:P2_has_type ?gender .
+    ?person crm:P2_has_type ?genderuri .
     ?person crm:P14i_performed ?occupation .
-    ?occupation rdf:value ?occupationvalue
-    FILTER {
-    			?genderuri bds:search ?_gender
-    		}
+    ?occupation rdf:value ?occupationvalue .
+    FILTER (?genderuri bds:search ?_gender)
+    
     SERVICE <http://www.bigdata.com/rdf/search#search> { 
         ?personLabel bds:search ?_occupation
     }
-    }
+    
+}
