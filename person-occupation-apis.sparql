@@ -1,0 +1,23 @@
+#+ endpoint_in_url: False
+#+ pagination: 50
+#+ transform: {
+#+     "label": "?personLabel",
+#+     "uri": "?person",
+#+     "occupation": "?occupationvalue",
+#+     "$anchor": "uri"
+#+   }
+
+PREFIX  bds:  <http://www.bigdata.com/rdf/search#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+
+SELECT ?person ?personLabel ?occupationvalue
+WHERE {
+    ?person a crm:E21_Person .
+    ?person rdfs:label ?personLabel .
+    ?person crm:P14i_performed ?occupation .
+    ?occupation rdf:value ?occupationvalue
+    SERVICE <http://www.bigdata.com/rdf/search#search> { 
+        ?occupationvalue bds:search ?_occupation_de
+    }
+}
+ORDER BY DESC(?person)
