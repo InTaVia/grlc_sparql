@@ -1,0 +1,27 @@
+#+ endpoint_in_url: False
+#+ pagination: 50
+#+ transform: {
+#+     "label": "?personLabel",
+#+     "uri": "?person",
+#+     "occupation": "?occupationvalue",
+#+     "$anchor": "uri"
+#+   }
+
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX apt: <https://vocabs.acdh-dev.oeaw.ac.at/apisthesaurus/gender/>
+PREFIX  bds:  <http://www.bigdata.com/rdf/search#>
+
+SELECT ?personLabel ?occupationvalue
+WHERE {
+    ?person a crm:E21_Person .
+    ?person rdfs:label ?personLabel .
+    ?person crm:P2_has_type ?gender .
+    ?person crm:P14i_performed ?occupation .
+    ?occupation rdf:value ?occupationvalue
+    FILTER {
+    			?genderuri bds:search ?_gender
+    		}
+    SERVICE <http://www.bigdata.com/rdf/search#search> { 
+        ?personLabel bds:search ?_occupation
+    }
+    }
