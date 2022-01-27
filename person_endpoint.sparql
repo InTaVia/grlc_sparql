@@ -1,0 +1,43 @@
+PREFIX bds:  <http://www.bigdata.com/rdf/search#>
+PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
+PREFIX bioc: <http://www.ldf.fi/schema/bioc/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX idm: <https://www.intavia.org/idm/>
+PREFIX : <http://www.researchspace.org/resource/>
+
+SELECT ?person ?surnameLabel ?forenameLabel ?occupationLabel ?personLabel ?genderLabel ?nationalityLabel ?dateOfBirth ?dateOfDeath ?cho_object
+WHERE {
+    ?person a crm:E21_Person ;
+            rdfs:label ?personLabel ;
+   			crm:P1_is_identified_by ?name .
+  	?name a crm:E33_E41_Linguistic_Appellation ;
+         crm:P148_has_component ?forename ;
+         crm:P148_has_component ?surname .
+  	?forename a crm:E33_E41_Linguistic_Appellation ;
+             rdfs:label ?forenameLabel ;
+             crm:P2_has_type <https://www.intavia.org/nametype/forename> .
+    ?surname a crm:E33_E41_Linguistic_Appellation ;
+             rdfs:label ?surnameLabel ;
+             crm:P2_has_type <https://www.intavia.org/nametype/surname> .
+  OPTIONAL {
+    ?person bioc:has_occupation ?occupation .
+    ?occupation rdfs:label ?occupationLabel .
+  }
+  OPTIONAL {
+  	?person bioc:has_gender ?gender .
+    ?gender rdfs:label ?genderLabel .
+  }
+  OPTIONAL {
+  	?person bioc:has_nationality ?nationality .
+    ?nationality rdfs:label ?nationalityLabel .
+  }
+  OPTIONAL {
+    ?person ^crm:P98_brought_into_life/crm:P4_has_time_span/crm:P81a_begin_of_the_begin ?dateOfBirth .
+  }
+   OPTIONAL {
+    ?person ^crm:P100_was_death_of/crm:P4_has_time_span/crm:P81a_begin_of_the_begin ?dateOfDeath .
+  }
+  
+}
+
+ORDER BY DESC(?person)
