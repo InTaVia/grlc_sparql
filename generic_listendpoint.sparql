@@ -27,7 +27,12 @@ WHERE {
   SERVICE <http://www.bigdata.com/rdf/search#search> { 
         ?entityLabel bds:search ?_q
     }
-  BIND (IF(?entityType = <https://www.intavia.org/idm-core/Person_Proxy>, "Person",
-      IF(?entityType = <https://www.intavia.org/idm-core/Group>, "Institution",
-        IF(?entityType = <http://www.cidoc-crm.org/cidoc-crm/E53_Place>, "Place", "Entity"))) AS ?entityTypeLabel)
+  FILTER (?entityType IN(<https://www.intavia.org/idm-core/Person_Proxy>, <http://www.intavia.org/idm-core/Person_Proxy>, 
+                        <http://www.cidoc-crm.org/cidoc-crm/E21_Person>, <http://data.biographynet.nl/rdf/PersonDes>,
+                        <https://www.intavia.org/idm-core/Group>, <http://www.cidoc-crm.org/cidoc-crm/E53_Place>  
+                        ))
+  BIND (
+    IF(?entityType IN(<https://www.intavia.org/idm-core/Person_Proxy>, <http://www.intavia.org/idm-core/Person_Proxy>, <http://www.cidoc-crm.org/cidoc-crm/E21_Person>, <http://data.biographynet.nl/rdf/PersonDes>), "Person",
+    IF(?entityType = <https://www.intavia.org/idm-core/Group>, "Institution",
+    IF(?entityType = <http://www.cidoc-crm.org/cidoc-crm/E53_Place>, "Place", "Entity"))) AS ?entityTypeLabel)
 } 
