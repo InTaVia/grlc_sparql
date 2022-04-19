@@ -1,3 +1,12 @@
+#+ endpoint_in_url: False
+#+ pagination: 50
+#+ transform: {
+#+     "label": "?entityLabel",
+#+     "uri": "?entity",
+#+     "type": "?entityTypeLabel",
+#+     "$anchor": "uri"
+#+   }
+
 PREFIX bds:  <http://www.bigdata.com/rdf/search#>
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
 PREFIX bioc: <http://www.ldf.fi/schema/bioc/>
