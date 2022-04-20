@@ -1,8 +1,8 @@
 #+ endpoint_in_url: False
 #+ pagination: 50
 #+ transform: {
-#+     "label": "?entityLabel",
-#+     "uri": "?entity",
+#+     "label": "?entityLabelNew",
+#+     "uri": "?entityReturn",
 #+     "type": "?entityTypeLabel",
 #+     "$anchor": "uri"
 #+   }
