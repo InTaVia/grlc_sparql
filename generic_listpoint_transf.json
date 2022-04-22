@@ -1,6 +1,7 @@
 {
  "proto": {
      "id": "?entity$anchor",
+     "type": "?entityTypeLabel",
      "labels": "?entityLabel$list"
  },
  "$prefixes": {
@@ -12,10 +13,12 @@
      "idmcore": "http://www.intavia.eu/idm-core/"
  },
  "$where": [
-    "?person idmcore:person_proxy_for ?entity",
+    "?person idmcore:person_proxy_for|idmcore:group_proxy_for ?entity",
     "?person crm:P1_is_identified_by ?appellation .",
+    "?entity a ?entityType .",
     "?appellation a crm:E33_E41_Linguistic_Appellation .",
     "?appellation rdfs:label ?entityLabel .",
-    "?entityLabel bds:search ?_q"
+    "?entityLabel bds:search ?_q",
+    "BIND (IF(?entityType = <http://www.intavia.eu/idm-core/Provided_Person>, \"Person\", IF(?entityType = <http://www.intavia.eu/idm-core/Provided_Group>, \"Institution\", IF(?entityType = <http://www.cidoc-crm.org/cidoc-crm/E53_Place>, \"Place\", \"Entity\"))) AS ?entityTypeLabel)"
  ]
 }
