@@ -4,6 +4,7 @@
 #+     "label": "?entityLabelNew",
 #+     "uri": "?entityReturn",
 #+     "type": "?entityTypeLabel",
+#+     "source": "?source",
 #+     "birth": "?birth",
 #+     "death": "?death",
 #+     "occupation": "?occupation",
@@ -18,12 +19,12 @@ PREFIX : <http://www.researchspace.org/resource/>
 PREFIX idmcore: <https://www.intavia.org/idm-core/>
 PREFIX idmcore2: <http://www.intavia.eu/idm-core/>
 
-SELECT DISTINCT ?entityReturn (GROUP_CONCAT(?entityLabel; SEPARATOR=";") as ?entityLabelNew) (SAMPLE(?entityTypeLabel) as ?entityTypeLabel) (SAMPLE(?birth) AS ?birth) (SAMPLE(?death) AS ?death) (GROUP_CONCAT(?occupation; SEPARATOR=";") as ?occupation)
+SELECT DISTINCT ?entityReturn (GROUP_CONCAT(?entityLabel; SEPARATOR=";") as ?entityLabelNew) (SAMPLE(?entityTypeLabel) as ?entityTypeLabel) (SAMPLE(?source) AS ?source) (SAMPLE(?birth) AS ?birth) (SAMPLE(?death) AS ?death) (GROUP_CONCAT(?occupation; SEPARATOR=";") as ?occupation)
 WHERE {
     ?entity crm:P1_is_identified_by ?appellation .
     ?entity idmcore:person_proxy_for|idmcore2:person_proxy_for|idmcore:group_proxy_for|idmcore2:group_proxy_for ?entityReturn .
     ?entity a ?entityType .
-  	?entityReturn a ?entityType2 .
+    ?entityReturn a ?entityType2 .
     {?appellation a crm:E33_E41_Linguistic_Appellation .}
     UNION
     {?appellation a crm:E41_Appellation .}
@@ -42,6 +43,11 @@ WHERE {
     IF(?entityType2 IN(<http://www.intavia.eu/idm-core/Provided_Person>, <https://www.intavia.org/idm-core/Provided_Person>), "Person",
     IF(?entityType2 = <https://www.intavia.org/idm-core/Group>, "Institution",
     IF(?entityType2 = <http://www.cidoc-crm.org/cidoc-crm/E53_Place>, "Place", "Entity"))) AS ?entityTypeLabel)
+
+  BIND (
+    IF(STRSTARTS(STR(?entityReturn), "http://data.biographynet.nl/"), "BiographyNet",
+    IF(STRSTARTS(STR(?entityReturn), "http://www.intavia.eu/person/"), "APIS",
+    IF(STRSTARTS(STR(?entityReturn), "http://www.intavia.eu/provided_person/bs/"), "BiographySampo", "unknown"))) AS ?source)
 
   OPTIONAL {
     ?birthEvent crm:P98_brought_into_life ?entity ;
