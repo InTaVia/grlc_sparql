@@ -4,6 +4,8 @@
 #+     "label": "?entityLabelNew",
 #+     "uri": "?entityReturn",
 #+     "type": "?entityTypeLabel",
+#+     "birth": "?birth",
+#+     "death": "?death",
 #+     "$anchor": "uri"
 #+   }
 PREFIX bds:  <http://www.bigdata.com/rdf/search#>
@@ -15,7 +17,7 @@ PREFIX : <http://www.researchspace.org/resource/>
 PREFIX idmcore: <https://www.intavia.org/idm-core/>
 PREFIX idmcore2: <http://www.intavia.eu/idm-core/>
 
-SELECT DISTINCT ?entityReturn (GROUP_CONCAT(?entityLabel; SEPARATOR=";") as ?entityLabelNew) (SAMPLE(?entityTypeLabel) as ?entityTypeLabel)
+SELECT DISTINCT ?entityReturn (GROUP_CONCAT(?entityLabel; SEPARATOR=";") as ?entityLabelNew) (SAMPLE(?entityTypeLabel) as ?entityTypeLabel) (SAMPLE(?birth) AS ?birth) (SAMPLE(?death) AS ?death)
 WHERE {
     ?entity crm:P1_is_identified_by ?appellation .
     ?entity idmcore:person_proxy_for|idmcore2:person_proxy_for|idmcore:group_proxy_for|idmcore2:group_proxy_for ?entityReturn .
@@ -39,5 +41,14 @@ WHERE {
     IF(?entityType2 IN(<http://www.intavia.eu/idm-core/Provided_Person>, <https://www.intavia.org/idm-core/Provided_Person>), "Person",
     IF(?entityType2 = <https://www.intavia.org/idm-core/Group>, "Institution",
     IF(?entityType2 = <http://www.cidoc-crm.org/cidoc-crm/E53_Place>, "Place", "Entity"))) AS ?entityTypeLabel)
+
+  OPTIONAL {
+    ?birthEvent crm:P98_brought_into_life ?entity ;
+                (crm:P4_has_time-span|crm:P4_has_time_span)/rdfs:label ?birth .
+  }
+  OPTIONAL {
+    ?deathEvent crm:P100_was_death_of ?entity ;
+                (crm:P4_has_time-span|crm:P4_has_time_span)/rdfs:label ?death .
+  }
 }
 GROUP BY ?entityReturn
