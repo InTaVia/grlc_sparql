@@ -6,18 +6,19 @@
 #+     "type": "?entityTypeLabel",
 #+     "birth": "?birth",
 #+     "death": "?death",
+#+     "occupation": "?occupation",
 #+     "$anchor": "uri"
 #+   }
 PREFIX bds:  <http://www.bigdata.com/rdf/search#>
 PREFIX crm: <http://www.cidoc-crm.org/cidoc-crm/>
-PREFIX bioc: <http://www.ldf.fi/schema/bioc/>
+PREFIX bioc: <http://ldf.fi/schema/bioc/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX idm: <https://www.intavia.org/idm/>
 PREFIX : <http://www.researchspace.org/resource/>
 PREFIX idmcore: <https://www.intavia.org/idm-core/>
 PREFIX idmcore2: <http://www.intavia.eu/idm-core/>
 
-SELECT DISTINCT ?entityReturn (GROUP_CONCAT(?entityLabel; SEPARATOR=";") as ?entityLabelNew) (SAMPLE(?entityTypeLabel) as ?entityTypeLabel) (SAMPLE(?birth) AS ?birth) (SAMPLE(?death) AS ?death)
+SELECT DISTINCT ?entityReturn (GROUP_CONCAT(?entityLabel; SEPARATOR=";") as ?entityLabelNew) (SAMPLE(?entityTypeLabel) as ?entityTypeLabel) (SAMPLE(?birth) AS ?birth) (SAMPLE(?death) AS ?death) (GROUP_CONCAT(?occupation; SEPARATOR=";") as ?occupation)
 WHERE {
     ?entity crm:P1_is_identified_by ?appellation .
     ?entity idmcore:person_proxy_for|idmcore2:person_proxy_for|idmcore:group_proxy_for|idmcore2:group_proxy_for ?entityReturn .
@@ -49,6 +50,9 @@ WHERE {
   OPTIONAL {
     ?deathEvent crm:P100_was_death_of ?entity ;
                 (crm:P4_has_time-span|crm:P4_has_time_span)/rdfs:label ?death .
+  }
+  OPTIONAL {
+    ?entity bioc:has_occupation/rdfs:label ?occupation .
   }
 }
 GROUP BY ?entityReturn
